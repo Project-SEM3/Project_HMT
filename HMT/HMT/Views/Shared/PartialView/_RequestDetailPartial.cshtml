@@ -1,0 +1,281 @@
+﻿@model HMT.Models.HMTModel.UserRequestDetailModel
+
+@{
+    var statusValue = (bool)ViewData["status"];
+}
+
+<main class="p-6">
+    <!-- Breadcrumb -->
+    @if (statusValue!)
+    {
+        <nav class="flex mb-6" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1">
+                <li class="inline-flex items-center">
+                    <a asp-controller="Home" asp-action="Index"
+                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-400">
+                        <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                            </path>
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                              clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="ml-1 text-sm font-medium text-gray-500">Request</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    }
+
+    <!-- Main change -->
+    <section class="mb-6 rounded-md shadow bg-white w-full p-5 dark:bg-dark">
+        <div class="flex justify-between items-center">
+            <h3 class="font-medium text-lg pb-5 dark:text-white">
+                Detail request
+                (<span class="font-semibold">#@Model.Request.CodeRequest</span>)
+            </h3>
+            @if (statusValue)
+            {
+                @if (Model.Request.Request_Status == '0')
+                {
+                    <a asp-controller="Requests" asp-action="Edit" asp-route-codeRequest="@Model.Request.CodeRequest"
+                       class="inline-block py-2 px-4 border border-primary rounded-md bg-white dark:text-white dark:bg-gray-600">
+                        <span><i class="fa-solid fa-pen"></i></span>
+                        Edit request
+                    </a>
+                }
+            } else
+            {
+                @switch (@Model.Request.Request_Status)
+                {
+                    case '0':
+                        <span href="" class="btnDelete block py-2 px-4 text-white font-medium rounded bg-yellow-500 cursor-pointer" title="Delete request">Review</span>
+                        <div class="fixed top-0 right-0 left0 bottom-0 bg-gray-200/70 z-[1000] w-screen h-screen hidden">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <form method="post" asp-action="UpdateStatusRequest" asp-controller="RequestsConfirm" class="w-[450px] bg-white p-5 rounded-md shadow dark:bg-darkDropDown">
+                                    <input value="@Model.Request.Id" name="requestId" class="hidden" hidden />
+                                    <input value="true" name="detailPage" class="hidden" hidden />
+                                    <div class="flex justify-end">
+                                        <button type="button" class="btnCloseModalAcc text-lg px-2 ">
+                                            <i class="fa-regular fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <div class="text-center mb-3">
+                                        <span class="text-6xl"><i class="fa-sharp fa-regular fa-circle-exclamation"></i></span>
+                                    </div>
+                                    <h4 class="text-lg text-center">Accept or reject this request?</h4>
+                                    <div class="flex justify-center gap-3 mt-5">
+                                        <button type="submit" value="2" name="statusRequest"
+                                    class="py-2 px-4 bg-sky-500 text-white rounded hover:bg-sky-600">
+                                            Accept
+                                        </button>
+                                        <button type="submit" value="1" name="statusRequest"
+                                    class="py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600">
+                                            Reject
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        break;
+                    case '1':
+
+                        break;
+                    case '2':
+                        <div class="flex justify-center gap-3">
+                            <a asp-action="CompleteRequest" asp-route-codeRequest="@Model.Request.CodeRequest" asp-controller="RequestsConfirm" class="block py-2 px-4 text-white font-medium rounded bg-green-500" title="Detail request">Complete</a>
+                        </div>
+                        break;
+                    case '3':
+                        <div class="flex justify-center gap-3">
+                            <a asp-action="CompleteRequest" asp-route-codeRequest="@Model.Request.CodeRequest" asp-controller="RequestsConfirm" asp-route-edit="true" class="block py-2 px-4 text-white font-medium rounded bg-sky-500" title="Edit request">Edit</a>
+                        </div>
+                        break;
+                    default:
+                        <span href="" class="btnDelete block py-2 px-4 text-white font-medium rounded bg-yellow-500 cursor-pointer" title="Delete request">Review</span>
+                        <div class="fixed top-0 right-0 left0 bottom-0 bg-gray-200/70 z-[1000] w-screen h-screen hidden">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <form method="post" asp-action="UpdateStatusRequest" asp-controller="RequestsConfirm" class="w-[450px] bg-white p-5 rounded-md shadow dark:bg-darkDropDown">
+                                    <input value="@Model.Request.Id" name="requestId" class="hidden" hidden />
+                                    <input value="true" name="detailPage" class="hidden" hidden />
+                                    <div class="flex justify-end">
+                                        <button type="button" class="btnCloseModalAcc text-lg px-2 ">
+                                            <i class="fa-regular fa-xmark"></i>
+                                        </button>
+                                    </div>
+                                    <div class="text-center mb-3">
+                                        <span class="text-6xl"><i class="fa-sharp fa-regular fa-circle-exclamation"></i></span>
+                                    </div>
+                                    <h4 class="text-lg text-center">Accept or reject this request?</h4>
+                                    <div class="flex justify-center gap-3 mt-5">
+                                        <button type="submit" value="2" name="statusRequest"
+                                    class="py-2 px-4 bg-sky-500 text-white rounded hover:bg-sky-600">
+                                            Accept
+                                        </button>
+                                        <button type="submit" value="1" name="statusRequest"
+                                    class="py-2 px-4 bg-red-500 text-white rounded hover:bg-red-600">
+                                            Reject
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        break;
+                }
+            }
+            
+            
+        </div>
+        <div class="grid grid-cols-7 gap-3">
+            <div class="col-span-3 flex flex-col items-center">
+                <h5 class="font-medium mb-3 dark:text-white">From</h5>
+                <div class="flex items-center">
+                    <img class="w-20 h-20 rounded-md object-cover" src="~/img/@(Model.UserFrom.Image == "" ? "Avatar-Default.jpg" : Model.UserFrom.Image)" alt="avatarUserFrom">
+                    <div class="ml-5">
+                        <h5 class="text-sm dark:text-white">@Model.UserFrom.FullName</h5>
+                        <span class="text-xs text-gray-400">@Model.UserFrom.Email</span>
+                    </div>
+                </div>
+            </div>
+            <div class=" flex items-center justify-center">
+                <span class="text-4xl text-gray-500"><i class="fa-solid fa-right"></i></span>
+            </div>
+            <div class="col-span-3 flex flex-col items-center">
+                <h5 class="font-medium mb-3 dark:text-white">To</h5>
+                <div class="flex items-center">
+                    <img class="w-20 h-20 rounded-md object-cover"
+                         src="~/img/@(Model.UserTo.Image == "" ? "Avatar-Default.jpg" : Model.UserTo.Image)"
+                         alt="avatarUserTo">
+                    <div class="ml-5">
+                        <h5 class="text-sm dark:text-white">@Model.UserTo.FullName</h5>
+                        <span class="text-xs text-gray-400">@Model.UserTo.Email</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 flex gap-10">
+            <div class="flex">
+                <h3 class="text-sm font-medium">Status:</h3>
+                @switch (Model.Request.Request_Status)
+                {
+                    case '0':
+                        <p class="text-sm ml-3 text-yellow-500">Pending</p>
+                        break;
+                    case '1':
+                        <p class="text-sm ml-3 text-red-500">Reject</p>
+                        break;
+                    case '2':
+                        <p class="text-sm ml-3 text-sky-500">Accepted</p>
+                        break;
+                    case '3':
+                        <p class="text-sm ml-3 text-green-500">Completed</p>
+                        break;
+                    default:
+                        <p class="text-sm ml-3 text-yellow-500">Pending</p>
+                        break;
+                }
+            </div>
+            <div class="flex">
+                <h3 class="text-sm font-medium">Total Quantity:</h3>
+                <p class="text-sm ml-3">@Model.Request.TotalQuantity</p>
+            </div>
+            <div class="flex">
+                <h3 class="text-sm font-medium">Total Price:</h3>
+                @if (Model.Request.Request_Status == '3')
+                {
+                    <p class="text-sm ml-3">$@Model.Request.TotalPrice</p>
+                }
+                else if (Model.Request.Request_Status == '1')
+                {
+                    <p class="text-sm ml-3 text-red-500">Reject</p>
+                } else  
+                {
+                    <p class="text-sm ml-3 text-yellow-500">Update later</p>
+                }
+            </div>
+        </div>
+
+        <div class="relative overflow-x-auto mt-5">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Category
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Stationery
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Quantity
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Note
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Price
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.RequestDetails)
+                    {
+                        <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td class="px-6 py-4">
+                                @item.Product.Category.NameCategory
+                            </td>
+                            <td class="px-6 py-4">
+                                @item.Product.NameProduct
+                            </td>
+                            <td class="px-6 py-4">
+                                @item.Quantity
+                            </td>
+                            <td class="px-6 py-4">
+                                @if (item.Note == "" || item.Note == null || item.Note == "null")
+                                {
+                                    <span>Empty</span>
+
+                                }
+                                else
+                                {
+                                    @item.Note
+                                }
+                            </td>
+                            @if (Model.Request.Request_Status == '3')
+                            {
+                                <td class="px-6 py-4">
+                                    $@item.Price
+                                </td>
+                            }
+                            else if (Model.Request.Request_Status == '1')
+                            {
+                                <td class="px-6 py-4">
+                                    <p class="text-sm ml-3 text-red-500">Reject</p>
+                                </td>
+                            } else  
+                            {
+                                <td class="px-6 py-4">
+                                    <p class="text-yellow-500">Update later</p>
+                                </td>
+
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+    <!-- Main change end -->
+
+</main>

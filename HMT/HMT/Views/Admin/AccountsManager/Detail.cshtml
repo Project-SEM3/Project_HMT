@@ -1,0 +1,9 @@
+﻿@model HMT.Models.HMTModel.UserWithRolesViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var status = false;
+}
+
+@await Html.PartialAsync("~/Views/Shared/PartialView/_ProfilePartial.cshtml", Model,  new ViewDataDictionary(ViewData) { { "status", status } })

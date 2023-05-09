@@ -1,0 +1,102 @@
+﻿@model HMT.Models.HMTModel.UserWithRolesViewModel
+
+@{
+    var statusValue = (bool)ViewData["status"];
+}
+
+<main class="p-6">
+
+    <!-- Main change -->
+    <section class="w-full rounded-md bg-white shadow p-5 dark:bg-dark mb-6">
+        <h3 class="font-medium text-lg pb-5 dark:text-white">Profile</h3>
+        <div class="grid grid-cols-5 gap-5">
+            <div class="flex justify-center">
+                <div class="relative h-fit">
+                    <img id="avatarEditImg" class="h-36 w-36 rounded-md object-cover"
+                         src="~/img/@(Model.User.Image == "" ? "Avatar-Default.jpg" : Model.User.Image)" alt="avartar">
+                </div>
+            </div>
+            <div class="col-span-4">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="mb-6">
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input type="email" id="email" disabled readonly value="@Model.User.Email"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none disabled:pointer-events-none disabled:bg-[#eee] dark:disabled:bg-[#1b2e4b] dark:text-gray-300 block w-full p-2.5">
+                    </div>
+                    <div class="mb-6">
+                        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                        <input type="text" id="phone" disabled readonly value="@Model.User.PhoneNumber"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5 disabled:pointer-events-none disabled:bg-[#eee] dark:disabled:bg-[#1b2e4b] dark:text-gray-300">
+                    </div>
+                    <div class="mb-6">
+                        <label for="fullName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Full
+                            Name
+                        </label>
+                        <input type="text" id="fullName" disabled readonly value="@Model.User.FullName"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5 disabled:pointer-events-none disabled:bg-[#eee] dark:disabled:bg-[#1b2e4b] dark:text-gray-300">
+                    </div>
+                    <div class="mb-6">
+                        <label for="address"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                        <input type="text" id="address" disabled readonly value="@Model.User.Address"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5 disabled:pointer-events-none disabled:bg-[#eee] dark:disabled:bg-[#1b2e4b] dark:text-gray-300">
+                    </div>
+                    <div class="mb-6">
+                        <label for="currentPass"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                        <div class="relative h-fit">
+                            <input type="text" id="passCheck" disabled readonly value="For security reasons, you cannot view this field"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5 disabled:pointer-events-none disabled:bg-[#eee] dark:disabled:bg-[#1b2e4b] dark:text-gray-300">
+                            @*<span class="hiddenPass viewPass absolute top-1/2 right-4 -translate-y-1/2 p-2 dark:text-white cursor-pointer">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>*@
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="fullName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Role
+                        </label>
+
+
+                        @foreach (var role in Model.Roles)
+                        {
+                            <input type="text" id="fullName" disabled readonly value="@role"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none block w-full p-2.5 disabled:pointer-events-none disabled:bg-[#eee] dark:disabled:bg-[#1b2e4b] dark:text-gray-300">
+
+                            @if (role != Model.Roles.LastOrDefault())
+                            {
+                                <text>,</text>
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (statusValue)
+        {
+            <div class="flex items-center justify-center mt-2">
+                        <a asp-controller="Accounts" asp-action="ChangePassword" class="py-3 mx-3 px-8 font-medium bg-yellow-500  hover:bg-yellow-600 rounded-md text-white">
+                            Change Password
+                        </a>
+                        <a asp-controller="Accounts" asp-action="EditProfile" class="py-3 px-16 font-medium bg-primary hover:bg-sky-600 rounded-md text-white">
+                            Edit Profile
+                        </a>
+            </div>    
+        }
+        else
+        {
+             <div class="flex items-center justify-center mt-2">
+                <a asp-controller="AccountsManager" asp-action="Edit" asp-route-id="@Model.User.Id" class="py-3 px-16 font-medium bg-primary hover:bg-sky-600 rounded-md text-white">
+                    Edit Profile
+                </a>
+            </div>
+        }
+
+        
+       
+    </section>
+    <!-- Main change end -->
+
+</main>

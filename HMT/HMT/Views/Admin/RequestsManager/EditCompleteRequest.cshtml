@@ -1,0 +1,10 @@
+﻿@model HMT.Models.HMTModel.UserRequestDetailModel
+@{
+    ViewData["Title"] = "Complete Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var statusEdit = true;
+}
+
+
+@await Html.PartialAsync("~/Views/Shared/PartialView/_CompleteRequestPartial.cshtml", Model,  new ViewDataDictionary(ViewData) { { "statusEdit", statusEdit } })

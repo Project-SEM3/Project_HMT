@@ -1,0 +1,110 @@
+﻿@*@model User*@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    
+    var user = await UserManager.GetUserAsync(User);
+    var email = user.Email;
+    var name = user.FullName;
+    var image = user.Image;
+    //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    <div class="flex gap-3 dark:text-white">
+        <div id="darkModeBtn"
+         class="h-9 w-9 rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 hover:text-primary cursor-pointer">
+            <i class="fa-regular fa-sun-bright"></i>
+        </div>
+        <div class="h-9 w-9 rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 hover:text-primary cursor-pointer">
+            <img class="h-6 w-6" src="~/img/icons8-usa-48.png" alt="usa">
+        </div>
+        <div id="notiDropdown" data-noti="5"
+         class="relative light h-9 w-9 rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 hover:text-primary cursor-pointer">
+            <!-- before:content-[attr(data-noti)] before:w-4 before:h-4 before:absolute before:text-white before:bg-rose-500 before:rounded-full before:text-xs before:text-center before:top-0 before:-right-1 -->
+            <i class="fa-sharp fa-regular fa-bell"></i>
+        </div>
+        <div id="avatarDropdown"
+         class="relative w-fit rounded-full flex items-center justify-center bg-slate-100 cursor-pointer">
+            <img class="h-10 w-10 object-cover rounded-full"
+             src="~/img/@(image == "" ? "Avatar-Default.jpg" : image)"
+             alt="avartar">
+        </div>
+    </div>
+
+    <!-- Dropdown -->
+    <div id="avatarDropdownMenu"
+     class="shadow bg-white rounded absolute top-16 right-6 transition hidden dark:bg-darkDropDown">
+        <ul class=" dark:text-gray-400">
+            <li class="p-4">
+                <div class="flex items-center gap-3">
+                    <img class="block w-10 h-10 rounded-md object-cover"
+                     src="~/img/@(image == "" ? "Avatar-Default.jpg" : image)"
+                     alt="ava">
+                    <div>
+                        <h4 class="text-base dark:text-gray-400">@name</h4>
+                        <p class="text-xs text-gray-400 block w-full dark:text-gray-500">@email</p>
+                    </div>
+                </div>
+            </li>
+            <li class="hover:bg-sky-50 group dark:hover:bg-slate-700">
+                <a class="px-4 py-2 text-sm block group-hover:text-primary" asp-controller="Accounts" asp-action="Profile">
+                    <span class="mr-2"><i class="fa-regular fa-user"></i></span>
+                    Profile
+                </a>
+            </li>
+            <li class="hover:bg-sky-50 group dark:hover:bg-slate-700">
+                <a class="px-4 py-2 text-sm block group-hover:text-primary" asp-controller="Accounts" asp-action="ChangePassword">
+                    <span class="mr-2"><i class="fa-regular fa-lock"></i></span>
+                    Change Password
+                </a>
+            </li>
+            <li class="hover:bg-sky-50 group dark:hover:bg-slate-700">
+                <a class="px-4 py-2 text-sm block group-hover:text-primary" asp-controller="Requests" asp-action="Index">
+                    <span class="mr-2"><i class="fa-regular fa-clipboard-list"></i></span>
+                    My Request
+                </a>
+            </li>
+        </ul>
+        <a asp-controller="Accounts" asp-action="Logout">
+            <div class="px-4 py-3 border-t text-sm text-rose-500 rounded-b-md hover:bg-sky-50 hover:text-primary dark:border-slate-700 dark:hover:bg-slate-700">
+                <span class="mr-2"><i class="fa-regular fa-arrow-right-from-bracket"></i></span>
+                Sign Out
+            </div>
+        </a>
+    </div>
+    <!--  -->
+
+    <div id="notiDropdownMenu"
+     class="w-[350px] bg-white rounded shadow absolute top-16 right-20 transition-all hidden dark:bg-darkDropDown">
+        <h4 class="text-base px-4 py-2 font-medium border-b dark:border-b-slate-700 dark:text-white">Notification</h4>
+        <ul class="dark:text-gray-400">
+            <li class="flex items-center gap-2 text-sm px-4 py-2 border-b dark:border-b-slate-700">
+                <div class="text-3xl h-12 w-12 flex items-center justify-center rounded-full basis-1/6 bg-rose-100 text-rose-500">
+                    <i class="fa-sharp fa-regular fa-xmark"></i>
+                </div>
+                <div class="basis-5/6">
+                    <p> Your request <span class="font-semibold">#4554</span> has been declined</p>
+                    <span class="text-xs text-gray-400 dark:text-gray-500">4 min ago</span>
+                </div>
+            </li>
+            <li class="flex items-center gap-2 text-sm px-4 py-2 border-b dark:border-b-slate-700">
+                <div class="text-3xl h-12 w-12 flex items-center justify-center rounded-full basis-1/6 bg-green-100 text-green-500">
+                    <i class="fa-regular fa-check"></i>
+                </div>
+                <div class="basis-5/6">
+                    <p> Your request <span class="font-semibold">#4554</span> has been accepted</p>
+                    <span class="text-xs text-gray-400 dark:text-gray-500">9h ago</span>
+                </div>
+            </li>
+        </ul>
+        <div class="p-4">
+            <button class="rounded-md bg-primary text-white text-sm px-4 py-2 w-full shadow-md drop-shadow-xl shadow-primary hover:shadow-none">
+                Read All Notifications
+            </button>
+        </div>
+    </div>
+    <!-- End Dropdown -->
+}

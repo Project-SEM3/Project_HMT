@@ -1,0 +1,170 @@
+﻿@model IEnumerable<HMT.Models.HMTModel.AllPurchasedProductsViewModel>
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<main class="p-6">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1">
+            <li class="inline-flex items-center">
+                <a asp-action="Index" asp-controller="Home"
+                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-400">
+                    <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                        </path>
+                    </svg>
+                    Home
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-1 text-sm font-medium text-gray-500">Total</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+    <!-- Total -->
+    <section class="mb-6 rounded-md shadow bg-white w-full p-5 dark:bg-dark">
+        <h3 class="font-medium text-lg pb-5 dark:text-white">Total number of products purchased</h3>
+        <div>
+            @foreach (var itemCategory in Model)
+            {
+                <div class="totalTitle flex items-center justify-between py-3 px-6 border rounded-lg mt-5 dark:text-white">
+                    <h5>@itemCategory.Category.NameCategory</h5>
+                    <span><i class="fa-solid fa-chevron-down"></i></span>
+                </div>
+
+                @if (itemCategory.TotalProducts.Count() > 0)
+                {
+                    @foreach (var itemTotalProduct in itemCategory.TotalProducts)
+                    {
+                        <div class="relative overflow-x-auto hidden">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-md">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Id
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Stationery
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Total quantity
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Total price
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <td class="px-6 py-4">
+                                            #23435
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @itemTotalProduct.Product.NameProduct
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @itemTotalProduct.TotalQuantity
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            $@itemTotalProduct.TotalPrice
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                } else
+                {
+                    <div class="relative overflow-x-auto hidden px-6 py-2 text-yellow-500 text-sm ">
+                        Data Available
+                    </div>
+                }
+            }
+
+
+            @*<div class="totalTitle flex items-center justify-between py-3 px-6 border rounded-lg mt-5 dark:text-white">
+                <h5>Ruler</h5>
+                <span><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="relative overflow-x-auto hidden">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 rounded-md">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Id
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Stationery
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Total quantity
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Total price
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td class="px-6 py-4">
+                                #23435
+                            </td>
+                            <td class="px-6 py-4">
+                                Paper color
+                            </td>
+                            <td class="px-6 py-4">
+                                46
+                            </td>
+                            <td class="px-6 py-4">
+                                $276.4
+                            </td>
+                        </tr>
+                        <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td class="px-6 py-4">
+                                #23435
+                            </td>
+                            <td class="px-6 py-4">
+                                Paper Gray
+                            </td>
+                            <td class="px-6 py-4">
+                                46
+                            </td>
+                            <td class="px-6 py-4">
+                                $276.4
+                            </td>
+                        </tr>
+                        <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td class="px-6 py-4">
+                                #23435
+                            </td>
+                            <td class="px-6 py-4">
+                                Paper A4
+                            </td>
+                            <td class="px-6 py-4">
+                                46
+                            </td>
+                            <td class="px-6 py-4">
+                                $276.4
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>*@
+        </div>
+    </section>
+</main>

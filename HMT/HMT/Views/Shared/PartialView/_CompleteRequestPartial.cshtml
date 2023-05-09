@@ -1,0 +1,149 @@
+﻿@model HMT.Models.HMTModel.UserRequestDetailModel
+@{
+    var statusEdit = (bool)ViewData["statusEdit"];
+}
+
+<main class="p-6">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1">
+            <li class="inline-flex items-center">
+                <a asp-controller="Home" asp-action="Index"
+                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-400">
+                    <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                        </path>
+                    </svg>
+                    Home
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-1 text-sm font-medium text-gray-500">Request</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <!-- Main change -->
+    <section class="mb-6 rounded-md shadow bg-white w-full p-5 dark:bg-dark">
+        <h3 class="font-medium text-lg pb-5 dark:text-white">
+            Update price request (<span class="font-semibold">#@Model.Request.CodeRequest</span>)
+        </h3>
+        <div class="grid grid-cols-7 gap-3">
+            <div class="col-span-3 flex flex-col items-center">
+                <h5 class="font-medium mb-3 dark:text-white">From</h5>
+                <div class="flex items-center">
+                    <img class="w-20 h-20 rounded-md object-cover" src="~/img/@(Model.UserFrom.Image == "" ? "Avatar-Default.jpg" : Model.UserFrom.Image)" alt="avatarUserFrom">
+                    <div class="ml-5">
+                        <h5 class="text-sm dark:text-white">@Model.UserFrom.FullName</h5>
+                        <span class="text-xs text-gray-400">@Model.UserFrom.Email</span>
+                    </div>
+                </div>
+            </div>
+            <div class=" flex items-center justify-center">
+                <span class="text-4xl text-gray-500"><i class="fa-solid fa-right"></i></span>
+            </div>
+            <div class="col-span-3 flex flex-col items-center">
+                <h5 class="font-medium mb-3 dark:text-white">To</h5>
+                <div class="flex items-center">
+                    <img class="w-20 h-20 rounded-md object-cover"
+                         src="~/img/@(Model.UserTo.Image == "" ? "Avatar-Default.jpg" : Model.UserTo.Image)"
+                         alt="avatarUserTo">
+                    <div class="ml-5">
+                        <h5 class="text-sm dark:text-white">@Model.UserTo.FullName</h5>
+                        <span class="text-xs text-gray-400">@Model.UserTo.Email</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" asp-action="CompleteRequest" asp-controller="RequestsConfirm" class="relative overflow-x-auto mt-5">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input value="@Model.Request.Id" name="requestId" class="hidden" hidden />
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Category
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Stationery
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Quantity
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Note
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Price
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.RequestDetails)
+                    {
+                        <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
+                            <td class="px-6 py-4">
+                                @item.Product.Category.NameCategory
+                            </td>
+                            <td class="px-6 py-4">
+                                @item.Product.NameProduct
+                            </td>
+                            <td class="px-6 py-4">
+                                @item.Quantity
+                            </td>
+                            <td class="px-6 py-4">
+                                @if (item.Note == "" || item.Note == null || item.Note == "null")
+                                {
+                                    <span>Empty</span>
+
+                                }
+                                else
+                                {
+                                    @item.Note
+                                }
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex">
+                                    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                                        $
+                                    </span>
+                                    <input value="@item.Id" name="requestDetailIds" class="hidden" hidden />
+                                    @if (statusEdit)
+                                    {
+                                        <input type="text" name="requestDetailPrices"
+                                           class="priceComplete max-w-[150px] rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 outline-none focus:border-primary block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                           value="@item.Price" required pattern="^\d+(\.\d+)?$">
+                                    } else
+                                    {
+                                        <input type="text" name="requestDetailPrices"
+                                           class="priceComplete max-w-[150px] rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 outline-none focus:border-primary block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                           placeholder="VD: 3.46" required pattern="^\d+(\.\d+)?$">
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="flex justify-center mt-8">
+                <button type="submit" class="py-2 px-4 text-white bg-primary rounded-md hover:bg-sky-600">
+                    Update price request
+                </button>
+            </div>
+        </form>
+
+    </section>
+    <!-- Main change end -->
+
+</main>

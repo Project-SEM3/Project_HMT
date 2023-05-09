@@ -1,0 +1,144 @@
+﻿@model HMT.Models.HMTModel.UserRegistrationModel
+@{
+    ViewData["Title"] = "Manager Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<main class="p-6">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1">
+            <li class="inline-flex items-center">
+                <a asp-controller="Home" asp-action="Index"
+                   class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-primary dark:text-gray-400">
+                    <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                        </path>
+                    </svg>
+                    Home
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-1 text-sm font-medium text-gray-500">Account</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <!-- Main change -->
+    <section class="w-full rounded-md bg-white shadow p-5 dark:bg-dark mb-6">
+        <h3 class="font-medium text-lg pb-5 dark:text-white">Create new account</h3>
+        <form asp-action="Create" asp-controller="AccountsManager" method="post" enctype="multipart/form-data" class="grid grid-cols-5 gap-5">
+            <div class="flex justify-center">
+                <div class="relative h-fit">
+                    <img id="avatarEditImg" class="h-36 w-36 rounded-full object-cover" src="~/img/default-avatar.jpg"
+                         alt="avartar">
+                    <label for="avatarEdit" title="Upload image or change image"
+                           class="w-10 h-10 rounded-full flex items-center justify-center cursor-pointer bg-gray-100 shadow-md hover:bg-gray-200 absolute bottom-0 right-0 dark:text-gray-300 dark:bg-gray-500 dark:hover:bg-gray-600">
+                        <i class="fa-solid fa-plus"></i>
+                    </label>
+                </div>
+                <input id="avatarEdit" type="file" asp-for="FrontImage" value="123" class="hidden">
+            </div>
+            <div class="col-span-4">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="mb-6">
+                        <label asp-for="Email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input type="email" asp-for="Email" id="email"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               placeholder="Enter email" required>
+                        <span asp-validation-for="Email" class="text-sm text-red-800 "></span>
+
+                    </div>
+                    <div class="mb-6">
+                        <label asp-for="PhoneNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                        <input type="text" asp-for="PhoneNumber" id="phone"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               placeholder="vd: 098587656" required>
+                        <span asp-validation-for="PhoneNumber" class="text-sm text-red-800 "></span>
+
+                    </div>
+                    <div class="mb-6">
+                        <label asp-for="FullName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Full
+                            Name
+                        </label>
+                        <input type="text" asp-for="FullName" id="fullName"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               placeholder="Enter full name" required>
+                        <span asp-validation-for="FullName" class="text-sm text-red-800 "></span>
+
+                    </div>
+                    <div class="mb-6">
+                        <label asp-for="Address"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                        <input type="text" asp-for="Address" id="address"
+                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               placeholder="Enter address" required>
+                        <span asp-validation-for="Address" class="text-sm text-red-800 "></span>
+                    </div>
+                    <div class="mb-6">
+                        <label asp-for="Password"
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                        <div class="relative h-fit">
+                            <input type="password" asp-for="Password" id="passCheck"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   placeholder="Enter current password" required>
+                            <span class="hiddenPass viewPass absolute top-1/2 right-4 -translate-y-1/2 p-2 dark:text-white">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                        </div>
+                        <span asp-validation-for="Password" class="text-sm text-red-800 "></span>
+                    </div>
+                    <div class="mb-6">
+                        <label asp-for="ConfirmPassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Re-enter
+                            password
+                        </label>
+                        <div class="relative h-fit">
+                            <input type="password" asp-for="ConfirmPassword" id="rePassCheck"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   placeholder="Re-enter password" required>
+                            <span class="hiddenPass viewPass absolute top-1/2 right-4 -translate-y-1/2 p-2 dark:text-white">
+                                <i class="fa-solid fa-eye"></i>
+                            </span>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-sm text-red-800 "></span>
+                    </div>
+                    <div class="mb-6">
+                        <label asp-for="Rolle" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Select
+                            role
+                        </label>
+                        
+                        @Html.DropDownListFor(m => m.Rolle, ViewBag.Roles as SelectList, "-- Choose a role ---", new { @class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" })
+
+                    </div>
+                </div>
+                <div>
+                    <div id="alertPass"
+                         class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 hidden"
+                         role="alert">
+                        <span class="font-medium">Note: </span> Passwords do not match
+                    </div>
+                    <button id="btnSubmit" type="submit"
+                            class="text-white py-2 px-12 rounded-md bg-primary text-sm hover:bg-sky-600">
+                        Add
+                        new account
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+    <!-- Main change end -->
+
+</main>

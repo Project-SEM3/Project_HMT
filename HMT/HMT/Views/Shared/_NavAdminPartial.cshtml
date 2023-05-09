@@ -1,0 +1,31 @@
+﻿<div class="">
+    <h2 class="font-semibold h-full bg-neutral-100 p-2.5 pl-6 dark:bg-opacity-[0.05] dark:text-darkText">
+        Manager
+    </h2>
+    <ul class="px-4 dark:text-slate-500">
+        <li class="hover:bg-neutral-200 rounded-md group dark:hover:bg-slate-800">
+            <a class="p-2.5 text-sm font-normal block" asp-controller="AccountsManager" asp-action="Index">
+                <span class="pr-3 text-lg group-hover:text-primary">
+                    <i class="fa-duotone fa-address-card"></i>
+                </span>
+                Accounts
+            </a>
+        </li>
+        <li class="hover:bg-neutral-200 rounded-md group dark:hover:bg-slate-800">
+            <a class="p-2.5 text-sm font-normal block" asp-controller="RequestsConfirm" asp-action="Index">
+                <span class="pr-3 text-lg group-hover:text-primary">
+                    <i class="fa-duotone fa-file-check"></i>
+                </span>
+                Requests
+            </a>
+        </li>
+        <li class="hover:bg-neutral-200 rounded-md group dark:hover:bg-slate-800">
+            <a class="p-2.5 text-sm font-normal block" asp-controller="RequestsConfirm" asp-action="AllPurchasedProducts">
+                <span class="pr-3 text-lg group-hover:text-primary">
+                    <i class="fa-duotone fa-chart-simple"></i>
+                </span>
+                Total 
+            </a>
+        </li>
+    </ul>
+</div>

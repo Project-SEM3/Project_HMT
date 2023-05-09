@@ -1,0 +1,11 @@
+﻿@model HMT.Models.HMTModel.UserRequestDetailModel
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var status = false;
+}
+
+@await Html.PartialAsync("~/Views/Shared/PartialView/_RequestDetailPartial.cshtml", Model,  new ViewDataDictionary(ViewData) { { "status", status } })
+
